@@ -3,7 +3,7 @@ import PostMessage from '../models/postMessage.js';
 
 export const getPostById = async(req, res)=>{
     if(!"id" in req.params){
-        res.status(400).json({message: "missing id"})
+        res.status(400).json({message: "missing id"});
     }
     const { id } = req.params;
     try{
@@ -14,6 +14,7 @@ export const getPostById = async(req, res)=>{
     }catch(err){
         res.status(404).json({message: err.message})
     }
+    res.status(200).json({data:"get post by Id success"})
 }
 
 export const createPost = async (req, res) =>{
@@ -21,13 +22,14 @@ export const createPost = async (req, res) =>{
     if(!"userId" in post){
         return res.status(400).json({message: "missing user id"});
     }
-    const newPostMessage = new PostMessage({...post,creator: req.userId, createdAt: new DataTransfer().toISOString()});
+    const newPostMessage = new PostMessage({...post,creator: req.userId, createdAt: new Data().toISOString()});
     try{
         await newPostMessage.save();
         res.status(201).json({data: newPostMessage});
     }catch(err){
         res.status(409).json({message: "failed to save post"})
     }
+    res.status(200).json({data:"create post success"})
 }
 
 export const updatePost = async (req, res) => {
@@ -53,19 +55,9 @@ export const updatePost = async (req, res) => {
     }catch(error){
         res.status(403).json({message: error.message})
     }
-}
-
-export const getPostById = async(req,res) =>{
-    res.status(200).json({data:"get post by Id success"})
-}
-
-export const createPost = async (req, res) =>{
-    res.status(200).json({data:"create post success"})
-}
-
-export const updatePost = async (req, res) =>{
     res.status(200).json({data: "update post success"})
 }
+
 
 export const deletePost = async (req, res) =>{
     res.status(200).json({data:" delete post by id success"})
